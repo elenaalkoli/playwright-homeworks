@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "prepare": "husky install"
-  },
+    "prepare": "husky install",
+    "test": "npx playwright test",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
+},
+  "type": "module",
+
   "keywords": [],
   "author": "",
   "license": "ISC",
