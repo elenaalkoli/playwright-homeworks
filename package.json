@@ -4,12 +4,11 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "test": "npx playwright test",
+    "test:ui": "npx playwright test",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write ."
-},
+  },
   "type": "module",
-
   "keywords": [],
   "author": "",
   "license": "ISC",
