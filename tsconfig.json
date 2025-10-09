@@ -3,7 +3,8 @@
   "compilerOptions": {
     // File Layout
     // "rootDir": "./src",
-    // "outDir": "./dist",
+    "outDir": "./dist",
+    "baseUrl": "src",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -22,7 +23,7 @@
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
+    "exactOptionalPropertyTypes": false,
 
     // Style Options
     // "noImplicitReturns": true,
@@ -39,7 +40,7 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "include": ["src", "playwright.config.ts"]
 }
