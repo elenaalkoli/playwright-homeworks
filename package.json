@@ -4,12 +4,11 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "test": "npx playwright test",
+    "test:ui": "npx playwright test",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write ."
-},
+  },
   "type": "module",
-
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,6 +20,7 @@
     "@typescript-eslint/parser": "^8.46.0",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-define-config": "^2.1.0",
     "eslint-plugin-prettier": "^5.5.4",
     "husky": "^8.0.0",
     "lint-staged": "^16.2.3",
