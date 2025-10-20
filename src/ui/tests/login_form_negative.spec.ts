@@ -15,28 +15,26 @@ https://anatoly-karpovich.github.io/demo-login-form/
 import { test, expect } from '@playwright/test';
 import { invalidCredentials } from './login_form_negative.data.js';
 
-test.describe('[demo-login-form][login with invalid credentials]', () => {
+test.describe('[demo-login-form][registration with invalid credentials]', () => {
   const url = 'https://anatoly-karpovich.github.io/demo-login-form/';
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
     await page.evaluate(() => localStorage.clear());
   });
 
-  for (const credential of invalidCredentials) {
-    test(`Should not register with invalid credentials: username - ${credential.username} 
-        and password - ${credential.password} `, async ({ page }) => {
-      const registerButtonLoginForm = page.locator('//input[@id="registerOnLogin"]');
-      const usernameInput = page.locator('//input[@id="userNameOnRegister"]');
-      const passwordInput = page.locator('//input[@id="passwordOnRegister"]');
-      const registerButtonRegistrationForm = page.locator('//input[@id="register"]');
-      const errorMessage = page.locator('//h4[@id="errorMessageOnRegister"]');
+  for (const { title, username, password, expectedError } of invalidCredentials) {
+    test(title, async ({ page }) => {
+      const registerButtonLoginForm = page.locator('#registerOnLogin');
+      const usernameInput = page.locator('#userNameOnRegister');
+      const passwordInput = page.locator('#passwordOnRegister');
+      const registerButtonRegistrationForm = page.locator('#register');
+      const errorMessage = page.locator('#errorMessageOnRegister');
 
-      await page.goto(url);
       await registerButtonLoginForm.click();
-      await usernameInput.fill(credential.username);
-      await passwordInput.fill(credential.password);
+      await usernameInput.fill(username);
+      await passwordInput.fill(password);
       await registerButtonRegistrationForm.click();
-      await expect(errorMessage).toHaveText(credential.expectedError);
+      await expect(errorMessage).toHaveText(expectedError);
     });
   }
 });
