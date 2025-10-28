@@ -13,7 +13,7 @@ https://anatoly-karpovich.github.io/demo-login-form/
       Password: обязательное
 */
 import { test, expect } from '@playwright/test';
-import { invalidCredentials } from './login_form_negative.data.js';
+import { invalidCredentials } from './login_form_negative.data';
 
 test.describe('[demo-login-form][registration with invalid credentials]', () => {
   const url = 'https://anatoly-karpovich.github.io/demo-login-form/';

@@ -17,7 +17,7 @@ getTableRow(page, 'jsmith@gmail.com') => {
 */
 
 import { test, expect } from '@playwright/test';
-import { getTableRow } from './sandbox_sortable-table.function';
+import { getTableRow } from './ui/sandbox_sortable-table.function';
 
 test('Check getTableRow function', async ({ page }) => {
   const urlSandbox = 'https://anatoly-karpovich.github.io/test-automation-sandbox/';
