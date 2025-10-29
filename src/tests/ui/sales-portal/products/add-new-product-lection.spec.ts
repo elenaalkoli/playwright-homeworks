@@ -8,6 +8,7 @@ import { HomePage } from 'ui/pages/home.page';
 import { AddNewProductPage } from 'ui/pages/products/addNewProduct.page';
 import { ProductsListPage } from 'ui/pages/products/productsList.page';
 import { LoginPage } from 'ui/pages/login.page';
+import _ from 'lodash';
 
 test.describe('[Sales Portal] [Products]', async () => {
   test('Add new product', async ({ page }) => {
@@ -17,7 +18,7 @@ test.describe('[Sales Portal] [Products]', async () => {
     const addNewProductPage = new AddNewProductPage(page);
 
     await loginPage.open();
-    await loginPage.waitForOpened();
+    await expect(loginPage.uniqueElement).toBeVisible();
     await loginPage.login(credentials.username, credentials.password);
 
     await homePage.waitForOpened();
@@ -33,10 +34,18 @@ test.describe('[Sales Portal] [Products]', async () => {
     await productsListPage.waitForOpened();
     await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
+    const productFromTable = await productsListPage.getProductData(productData.name);
+    const actualProductFromTable = _.omit(productFromTable, ['createdOn']);
+    const expectedProduct = _.omit(productData, ['notes', 'amount']);
+    //or without lodash
+    // const { createdOn, ...actualProductFromTable } = productFromTable;
+    // const { notes, amount, ...expectedProduct } = productData;
+    await expect(actualProductFromTable).toEqual(expectedProduct);
+    await expect(productsListPage.firstRow).toContainText(productData.name);
   });
 });
 
-//locators !
+//locators
 //waiterForPage !
 //product data generator
 //teardown
