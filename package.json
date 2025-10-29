@@ -16,6 +16,8 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.56.0",
+    "@types/dotenv": "^8.2.3",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^24.7.0",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.46.0",
@@ -26,5 +28,9 @@
     "husky": "^8.0.0",
     "lint-staged": "^16.2.3",
     "prettier": "^3.6.2"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "lodash": "^4.17.21"
   }
 }
