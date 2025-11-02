@@ -1,6 +1,7 @@
 import { IProductInTable } from 'data/types/product.types';
 import { SalesPortalPage } from '../salesPortal.page';
 import { MANUFACTURERS } from 'data/sales-portal/products/manufacturers';
+import { DeleteModal } from './deleteModal.page';
 
 export class ProductsListPage extends SalesPortalPage {
   readonly productsPageTitle = this.page.locator('h2.fw-bold');
@@ -8,9 +9,14 @@ export class ProductsListPage extends SalesPortalPage {
   readonly uniqueElement = this.productsPageTitle;
   readonly tableRows = this.page.locator('table tbody tr');
   readonly firstRow = this.tableRows.first();
-
   readonly tableRowByName = (productName: string) =>
     this.page.locator('table tbody tr', { has: this.page.locator('td', { hasText: productName }) });
+  readonly detailsButton = (productName: string) =>
+    this.tableRowByName(productName).getByTitle('Details');
+  readonly editButton = (productName: string) =>
+    this.tableRowByName(productName).getByTitle('Edit');
+  readonly deleteButton = (productName: string) =>
+    this.tableRowByName(productName).getByTitle('Delete');
 
   async clickAddNewProduct() {
     await this.addNewProductButton.click();
@@ -49,5 +55,14 @@ export class ProductsListPage extends SalesPortalPage {
       manufacturer: manufacturer! as MANUFACTURERS,
       createdOn: createdOn!,
     };
+  }
+
+  async clickDeleteButton(productName: string) {
+    await this.deleteButton(productName).click();
+  }
+
+  async openDeleteModal(productName: string) {
+    await this.deleteButton(productName).click();
+    return new DeleteModal(this.page);
   }
 }
