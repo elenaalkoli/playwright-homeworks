@@ -9,15 +9,15 @@ export class DeleteModal extends SalesPortalPage {
   readonly deleteButton = this.modal.locator('button[type="submit"].btn-danger');
   readonly cancelButton = this.modal.locator('button.btn-secondary');
 
-  async clickCloseButton() {
+  async clickClose() {
     await this.closeButton.click();
   }
 
-  async clickDeleteButton() {
+  async clickDelete() {
     await this.deleteButton.click();
   }
 
-  async clickCancelButton() {
+  async clickCancel() {
     await this.cancelButton.click();
   }
 

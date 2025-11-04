@@ -37,7 +37,7 @@ test.describe('[Sales Portal] [Products]', async () => {
     //delete product
     const modalDelete = await productsListPage.openDeleteModal(productData.name);
     await modalDelete.waitForOpened();
-    await modalDelete.clickDeleteButton();
+    await modalDelete.clickDelete();
     await modalDelete.waitForClose();
     await productsListPage.waitForOpened();
 
