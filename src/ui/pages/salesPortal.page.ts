@@ -4,7 +4,9 @@ import { SALES_PORTAL_URL } from 'config/env';
 
 export abstract class SalesPortalPage extends BasePage {
   readonly spinner = this.page.locator('.spinner-border');
-  readonly toastMessage = this.page.locator('.toast-body');
+  readonly toast = this.page.locator('.toast.show').last();
+  readonly toastMessage = this.toast.locator('.toast-body');
+  readonly toastCloseButton = this.toast.locator('button.btn-close');
   abstract readonly uniqueElement: Locator;
 
   async waitForOpened() {
@@ -19,5 +21,9 @@ export abstract class SalesPortalPage extends BasePage {
   async open() {
     console.log(SALES_PORTAL_URL);
     await this.page.goto(SALES_PORTAL_URL);
+  }
+
+  async closeNotification() {
+    await this.toastCloseButton.click();
   }
 }

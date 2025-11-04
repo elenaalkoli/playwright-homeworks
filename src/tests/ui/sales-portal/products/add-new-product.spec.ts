@@ -11,7 +11,9 @@ import { LoginPage } from 'ui/pages/login.page';
 import _ from 'lodash';
 
 test.describe('[Sales Portal] [Products]', async () => {
-  test('Add new product', async ({ page }) => {
+  test('Add new product and check that it occupies the top position in the products list', async ({
+    page,
+  }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const productsListPage = new ProductsListPage(page);
