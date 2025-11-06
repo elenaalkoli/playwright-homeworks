@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import { ICredentials } from '../data/types/credentials.types';
 
 export const SALES_PORTAL_URL = process.env.SALES_PORTAL_URL!;
