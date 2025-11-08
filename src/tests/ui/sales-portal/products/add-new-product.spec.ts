@@ -2,8 +2,6 @@ import test, { expect } from '@playwright/test';
 import { credentials } from 'config/env';
 import { NOTIFICATIONS } from 'data/sales-portal/notifications';
 import { generateProductData } from 'data/sales-portal/products/generateProductData';
-// import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
-// import { IProduct } from "data/types/product.types";
 import { HomePage } from 'ui/pages/home.page';
 import { AddNewProductPage } from 'ui/pages/products/addNewProduct.page';
 import { ProductsListPage } from 'ui/pages/products/productsList.page';
