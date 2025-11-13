@@ -1,22 +1,18 @@
-import { APIResponse, expect } from '@playwright/test';
-import { validateJsonSchema } from '../utils/schema.utils';
+import { expect } from '@playwright/test';
+import { IResponse, IResponseFields } from 'data/types/core.types';
+import { validateJsonSchema } from './schema.utils';
 
-export async function validateResponse(
-  response: APIResponse,
+export function validateResponse<T extends IResponseFields | null>(
+  response: IResponse<T>,
   expected: {
     status: number;
-    schema?: object;
     IsSuccess?: boolean;
     ErrorMessage?: string | null;
+    schema?: object;
   }
 ) {
-  expect
-    .soft(response.status(), `Response status should be ${expected.status}`)
-    .toBe(expected.status);
-  const body = await response.json();
-  if (body) {
-    if (expected.schema) validateJsonSchema(body, expected.schema!);
-    expect.soft(body.IsSuccess, `IsSuccess should be ${expected.IsSuccess}`).toBe(true);
-    expect.soft(body.ErrorMessage, `ErrorMessage should be ${expected.ErrorMessage}`).toBe(null);
-  }
+  expect.soft(response.status).toBe(expected.status);
+  if (expected.IsSuccess) expect.soft(response.body!.IsSuccess).toBe(expected.IsSuccess);
+  if (expected.ErrorMessage) expect.soft(response.body!.ErrorMessage).toBe(expected.ErrorMessage);
+  if (expected.schema) validateJsonSchema(response.body!, expected.schema);
 }
