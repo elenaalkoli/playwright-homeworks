@@ -7,6 +7,7 @@ import { generateProductData } from 'data/sales-portal/products/generateProductD
 import { STATUS_CODES } from 'data/types/statusCodes.types';
 import { validateResponse } from 'utils/validateResponse.utils';
 import { createProductSchema } from 'data/schemas/products/create.schema';
+import { ERROR_MESSAGES } from 'data/sales-portal/products/errorProduct.types';
 
 // Используя DDT подход, напишите тест сьют для проверки эндпоинта создания продукта:
 //   1. с позитивными проверками
@@ -65,7 +66,7 @@ test.describe('[API] [Sales Portal] [Products] [Create]', () => {
         validateResponse(response, {
           status: STATUS_CODES.BAD_REQUEST,
           IsSuccess: false,
-          ErrorMessage: 'Incorrect request body',
+          ErrorMessage: ERROR_MESSAGES.INVALID_REQUEST_BODY,
         });
       });
     }
