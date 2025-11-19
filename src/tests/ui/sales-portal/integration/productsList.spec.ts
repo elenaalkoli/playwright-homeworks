@@ -125,6 +125,7 @@ test.describe('[Integration] [Sales Portal] [Products] [Table Sorting]', () => {
         const product1 = generateProductResponseData();
         const product2 = generateProductResponseData();
         const products = [product1, product2];
+        //1 мок - подставляем продукты с обратным порядком сортировки
         await mock.productsPage({
           Products: products,
           IsSuccess: true,
@@ -136,14 +137,15 @@ test.describe('[Integration] [Sales Portal] [Products] [Table Sorting]', () => {
           manufacturer: [],
           sorting: {
             sortField: headersMapper[header]!,
-            sortOrder: directions.find((el) => el !== direction)!,
+            sortOrder: directions.find((el) => el !== direction)!, //задаем обратный порядок от тестируемого
           },
         });
 
         await loginAsAdmin();
-        await page.goto(SALES_PORTAL_URL + 'products');
+        await page.goto(SALES_PORTAL_URL + '/#/products');
         await productsListPage.waitForOpened();
 
+        //2 мок - подставляем продукты уже в порядке, который тестируем
         await mock.productsPage({
           Products: products,
           IsSuccess: true,
@@ -158,24 +160,28 @@ test.describe('[Integration] [Sales Portal] [Products] [Table Sorting]', () => {
             sortOrder: direction,
           },
         });
+        //ждем, пока клик по заголовку таблицы отправит запрос на апи
         const request = await productsListPage.interceptRequest(
           apiConfig.endpoints.products,
           productsListPage.clickTableHeader.bind(productsListPage),
-          header
+          header //заголовок таблицы, по которому сортируем
         );
 
         await productsListPage.waitForOpened();
+        //URL запроса соответствует правильным параметрам сортировки
         expect(request.url()).toBe(
           `${apiConfig.baseUrl}${apiConfig.endpoints.products}?sortField=${headersMapper[header]}&sortOrder=${direction}&page=1&limit=10`
         );
-
+        //стрелка сортировки на заголовке видима и соответствует направлению
         await expect(productsListPage.tableHeaderArrow(header, { direction })).toBeVisible();
 
+        //получаем данные из таблицы и проверяем, что они соответствуют ожидаемым
         const tableData = await productsListPage.getTableData();
         expect(tableData.length).toBe(products.length);
+        //проверяем каждый продукт в таблице
         tableData.forEach((product, i) => {
           const expected = _.omit(products[i], ['_id', 'notes', 'amount']);
-          expected.createdOn = convertToDateAndTime(expected.createdOn!);
+          expected.createdOn = convertToDateAndTime(expected.createdOn!); //к формату таблицы
           expect(product).toEqual(expected);
         });
       });

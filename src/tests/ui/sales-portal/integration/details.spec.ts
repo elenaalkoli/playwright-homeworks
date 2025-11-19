@@ -29,7 +29,7 @@ test.describe('[Integration] [Sales Portal] [Products]', () => {
     });
 
     await loginAsAdmin();
-    await page.goto(SALES_PORTAL_URL + 'products');
+    await page.goto(SALES_PORTAL_URL + '/#/products');
     await productsListPage.waitForOpened();
     await productsListPage.clickAction(expectedProductResponse.name, 'details');
     const { detailsModal } = productsListPage;
