@@ -44,3 +44,61 @@ export interface IProductResponse extends IResponseFields {
 export interface IProductsResponse extends IResponseFields {
   Products: IProductFromResponse[];
 }
+
+// Для даты внутри customerGrowth
+export interface IMetricDate {
+  year: number;
+  month: number;
+  day: number;
+}
+
+// Для growth по кастомерам
+export interface ICustomerGrowth {
+  date: IMetricDate;
+  count: number;
+}
+
+// Заказы
+export interface IOrdersMetrics {
+  totalRevenue: number;
+  totalOrders: number;
+  averageOrderValue: number;
+  totalCanceledOrders: number;
+  recentOrders: any[];
+  ordersCountPerDay: any[];
+}
+
+// Клиенты
+export interface ICustomersMetrics {
+  totalNewCustomers: number;
+  topCustomers: any[];
+  customerGrowth: ICustomerGrowth[];
+}
+
+// Продукты
+export interface IProductsMetrics {
+  topProducts: any[];
+}
+
+// Основная структура Metrics
+export interface IMetrics {
+  orders: IOrdersMetrics;
+  customers: ICustomersMetrics;
+  products: IProductsMetrics;
+}
+
+// Полный ответ API
+export interface IMetricsResponse extends IResponseFields {
+  Metrics: IMetrics;
+}
+
+//тип для параметра мок-запроса для подмена api/metrics
+export type IMetricsResponseMockParams = Partial<{
+  Metrics: Partial<{
+    orders: Partial<IOrdersMetrics>;
+    customers: Partial<ICustomersMetrics>;
+    products: Partial<IProductsMetrics>;
+  }>;
+  IsSuccess: boolean;
+  ErrorMessage: string | null;
+}>;

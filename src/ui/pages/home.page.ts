@@ -8,6 +8,11 @@ export class HomePage extends SalesPortalPage {
   readonly productsButton = this.page.locator('#products-from-home');
   readonly customersButton = this.page.locator('#customers-from-home');
   readonly ordersButton = this.page.locator('#orders-from-home');
+  readonly orderThisYearMetric = this.page.locator('#total-orders-container p.card-text');
+  readonly totalRevenueMetric = this.page.locator('#total-revenue-container p.card-text');
+  readonly newCustomerMetric = this.page.locator('#total-customers-container p.card-text');
+  readonly avgOrdersValue = this.page.locator('#avg-orders-value-container p.card-text');
+  readonly canceledOrdersMetric = this.page.locator('#canceled-orders-container p.card-text');
   readonly uniqueElement = this.welcomeText;
 
   async clickOnViewModule(module: HomeModuleButton) {
