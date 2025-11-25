@@ -3,7 +3,7 @@ import { LoginApi } from 'api/api/login.api';
 import { credentials } from 'config/env';
 import { STATUS_CODES } from 'data/types/statusCodes.types';
 import { ICredentials } from 'data/types/credentials.types';
-import { validateResponse } from 'utils/validateResponse.utils';
+import { validateResponse } from 'utils/validation/validateResponse.utils';
 
 export class LoginService {
   constructor(private loginApi: LoginApi) {}

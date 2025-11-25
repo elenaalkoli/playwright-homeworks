@@ -18,9 +18,9 @@ export abstract class SalesPortalPage extends BasePage {
     await expect(this.spinner).toHaveCount(0, { timeout: 10000 });
   }
 
-  async open() {
-    console.log(SALES_PORTAL_URL);
-    await this.page.goto(SALES_PORTAL_URL);
+  async open(route?: string) {
+    const url = SALES_PORTAL_URL + (route ?? '/');
+    await this.page.goto(url);
   }
 
   async closeNotification() {

@@ -19,7 +19,7 @@ test.describe('[Sales Portal] [Products]', () => {
     // await homePage.waitForOpened();
     await loginPage.open();
     await expect(loginPage.uniqueElement).toBeVisible();
-    await loginPage.login(credentials.username, credentials.password);
+    await loginPage.login(credentials);
     await homePage.clickOnViewModule('Products');
     await productsListPage.waitForOpened();
     await productsListPage.clickAddNewProduct();
