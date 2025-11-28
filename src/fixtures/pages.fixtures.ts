@@ -8,6 +8,10 @@ import { HomeUIService } from 'ui/services/home.ui-service';
 import { AddNewProductUIService } from 'ui/services/addNewProduct.ui-service';
 import { LoginUIService } from 'ui/services/login.ui-service';
 import { ProductsListUIService } from 'ui/services/productsList.ui-service';
+import { CustomersListPage } from 'ui/pages/customers/customersList.page';
+import { AddNewCustomerPage } from 'ui/pages/customers/addNewCustomer.page';
+import { AddNewCustomerUIService } from 'ui/services/addNewCustomer.ui-service';
+import { CustomersListUIService } from 'ui/services/customersList.ui-service';
 
 export interface IPages {
   //pages
@@ -16,12 +20,16 @@ export interface IPages {
   productsListPage: ProductsListPage;
   addNewProductPage: AddNewProductPage;
   editProductPage: EditProductPage;
+  customersListPage: CustomersListPage;
+  addNewCustomerPage: AddNewCustomerPage;
 
   //ui-services
   homeUIService: HomeUIService;
   productsListUIService: ProductsListUIService;
   addNewProductUIService: AddNewProductUIService;
   loginUIService: LoginUIService;
+  customersListUIService: CustomersListUIService;
+  addNewCustomerUIService: AddNewCustomerUIService;
 }
 
 export const test = base.extend<IPages>({
@@ -41,6 +49,12 @@ export const test = base.extend<IPages>({
   editProductPage: async ({ page }, use) => {
     await use(new EditProductPage(page));
   },
+  customersListPage: async ({ page }, use) => {
+    await use(new CustomersListPage(page));
+  },
+  addNewCustomerPage: async ({ page }, use) => {
+    await use(new AddNewCustomerPage(page));
+  },
 
   //ui-services
   homeUIService: async ({ page }, use) => {
@@ -57,6 +71,12 @@ export const test = base.extend<IPages>({
 
   loginUIService: async ({ page }, use) => {
     await use(new LoginUIService(page));
+  },
+  customersListUIService: async ({ page }, use) => {
+    await use(new CustomersListUIService(page));
+  },
+  addNewCustomerUIService: async ({ page }, use) => {
+    await use(new AddNewCustomerUIService(page));
   },
 });
 

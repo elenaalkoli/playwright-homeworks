@@ -12,7 +12,7 @@
 import { generateProductData } from 'data/sales-portal/products/generateProductData';
 import { test } from 'fixtures';
 
-test.describe('[Sales Portal] [Products] E2E Update product (API + UI)', () => {
+test.describe('[Sales Portal] [Products] E2E Update product', () => {
   let id: string;
   let token: string;
 
@@ -20,7 +20,7 @@ test.describe('[Sales Portal] [Products] E2E Update product (API + UI)', () => {
     if (id) await productsApiService.delete(token, id);
   });
 
-  test('should update a product using services (create via API and edit via UI)', async ({
+  test('Should update a product using services (create via API and edit via UI)', async ({
     loginUIService,
     productsApiService,
     productsListUIService,

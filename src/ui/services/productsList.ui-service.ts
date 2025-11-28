@@ -76,7 +76,7 @@ export class ProductsListUIService {
     });
   }
 
-  // Проверяем данные продукта в UI-таблице
+  // Проверка данных таблицы (actual) в соотв. со сгенерированными для создания продукта (expected)
   assertTableProductDataToGenerated(actual: IProductInTable, expected: IProduct) {
     expect(_.omit(actual, ['createdOn'])).toEqual(_.omit(expected, ['amount', 'notes']));
   }
