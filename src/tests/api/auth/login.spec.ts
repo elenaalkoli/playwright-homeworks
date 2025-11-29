@@ -8,7 +8,7 @@ import { apiConfig } from 'config/apiConfig';
 import { credentials } from 'config/env';
 import { loginSchema } from 'data/schemas/auth/login.schema';
 import { STATUS_CODES } from 'data/types/statusCodes.types';
-import { validateJsonSchema } from 'utils/schema.utils';
+import { validateJsonSchema } from 'utils/validation/schema.utils';
 
 const { baseUrl, endpoints } = apiConfig;
 

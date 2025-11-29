@@ -16,4 +16,7 @@ export class DeleteModal extends Modal {
   async clickCancel() {
     await this.cancelButton.click();
   }
+  async clickClose() {
+    await this.closeButton.click();
+  }
 }

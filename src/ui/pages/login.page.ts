@@ -5,6 +5,7 @@
 //   - fillCredentials method
 //   - click on login button method
 
+import { ICredentials } from 'data/types/credentials.types';
 import { SalesPortalPage } from './salesPortal.page';
 export class LoginPage extends SalesPortalPage {
   readonly emailInput = this.page.locator('#emailinput');
@@ -13,8 +14,8 @@ export class LoginPage extends SalesPortalPage {
   readonly title = this.page.locator('p.lead');
   readonly uniqueElement = this.title;
 
-  async fillCredentials(email: string, password: string) {
-    await this.emailInput.fill(email);
+  async fillCredentials({ username, password }: ICredentials) {
+    await this.emailInput.fill(username);
     await this.passwordInput.fill(password);
   }
 
@@ -22,8 +23,8 @@ export class LoginPage extends SalesPortalPage {
     await this.loginButton.click();
   }
 
-  async login(email: string, password: string) {
-    await this.fillCredentials(email, password);
+  async login(credentials: ICredentials) {
+    await this.fillCredentials(credentials);
     await this.clickLoginButton();
   }
 }

@@ -3,12 +3,12 @@ import { generateProductData } from 'data/sales-portal/products/generateProductD
 import { createProductSchema } from 'data/schemas/products/create.schema';
 import { STATUS_CODES } from 'data/types/statusCodes.types';
 import { IProduct } from 'data/types/product.types';
-import { validateResponse } from 'utils/validateResponse.utils';
+import { validateResponse } from 'utils/validation/validateResponse.utils';
 
 export class ProductsApiService {
   constructor(private productsApi: ProductsApi) {}
 
-  async create(token: string, productData?: IProduct) {
+  async createProduct(token: string, productData?: IProduct) {
     const data = generateProductData(productData);
     const response = await this.productsApi.create(data, token);
     validateResponse(response, {

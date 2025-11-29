@@ -16,10 +16,10 @@ import { generateProductData } from 'data/sales-portal/products/generateProductD
 import { getAllProductsSchema } from 'data/schemas/products/getAllProducts.schema';
 import {
   IProductFromResponse,
-  IGetAllProductsResponse,
+  IProductsSortedResponse,
   IProductResponse,
 } from 'data/types/product.types';
-import { validateJsonSchema } from 'utils/schema.utils';
+import { validateJsonSchema } from 'utils/validation/schema.utils';
 
 const { baseUrl, endpoints } = apiConfig;
 
@@ -77,7 +77,7 @@ test.describe('[API] [Sales Portal] [Products]', () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const allProductsBody = (await allProductsResponse.json()) as IGetAllProductsResponse;
+    const allProductsBody = (await allProductsResponse.json()) as IProductsSortedResponse;
     await validateJsonSchema(allProductsBody, getAllProductsSchema);
     console.log('All products response body:', allProductsBody);
     const foundedProduct = allProductsBody.Products.some(

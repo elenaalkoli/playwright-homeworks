@@ -5,11 +5,16 @@ import { DeleteModal } from './deleteModal.page';
 import { ProductDetailsModal } from './detailsModal.page';
 
 export class ProductsListPage extends SalesPortalPage {
+  readonly detailsModal = new ProductDetailsModal(this.page);
+  readonly deleteModal = new DeleteModal(this.page);
+
   readonly productsPageTitle = this.page.locator('h2.fw-bold');
   readonly addNewProductButton = this.page.locator('[name="add-button"]');
   readonly uniqueElement = this.productsPageTitle;
   readonly tableRows = this.page.locator('table tbody tr');
   readonly firstRow = this.tableRows.first();
+  readonly searchInput = this.page.locator('#search');
+  readonly searchButton = this.page.locator('#search-products');
   readonly tableRowByName = (productName: string) =>
     this.page.locator('table tbody tr', { has: this.page.locator('td', { hasText: productName }) });
   readonly detailsButton = (productName: string) =>
@@ -37,8 +42,6 @@ export class ProductsListPage extends SalesPortalPage {
     this.page
       .locator('thead th', { has: this.page.locator('div[current]', { hasText: name }) })
       .locator(`i.${direction === 'asc' ? 'bi-arrow-down' : 'bi-arrow-up'}`);
-
-  readonly detailsModal = new ProductDetailsModal(this.page);
 
   async clickAddNewProduct() {
     await this.addNewProductButton.click();
@@ -111,5 +114,12 @@ export class ProductsListPage extends SalesPortalPage {
 
   async clickTableHeader(name: ProductsTableHeader) {
     await this.tableHeaderNamed(name).click();
+  }
+  async fillSearchInput(text: string) {
+    await this.searchInput.fill(text);
+  }
+
+  async clickSearch() {
+    await this.searchButton.click();
   }
 }
