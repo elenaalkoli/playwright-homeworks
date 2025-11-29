@@ -16,6 +16,8 @@ export abstract class BasePage {
     return request;
   }
 
+  //функция ждёт сетевой ответ от страницы (waitForResponse - встроенный метод page,
+  //ждет http ответ от страницы) после того, как выполняется какое-то действие на UI (triggerAction).
   async interceptResponse<U extends object | null, T extends unknown[]>(
     url: string,
     triggerAction: (...args: T) => Promise<void>,
