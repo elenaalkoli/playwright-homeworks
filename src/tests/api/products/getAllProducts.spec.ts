@@ -20,6 +20,7 @@ import {
   IProductResponse,
 } from 'data/types/product.types';
 import { validateJsonSchema } from 'utils/validation/schema.utils';
+import { TAGS } from 'data/tags';
 
 const { baseUrl, endpoints } = apiConfig;
 
@@ -55,7 +56,7 @@ test.describe('[API] [Sales Portal] [Products]', () => {
   });
 
   //3 - create a product, then get all products
-  test('Get all products', async ({ request }) => {
+  test('Get all products', { tag: [TAGS.API, TAGS.REGRESSION] }, async ({ request }) => {
     //create a product
     const product = generateProductData();
     console.log('Generated product:', product);

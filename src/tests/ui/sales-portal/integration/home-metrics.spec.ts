@@ -1,73 +1,83 @@
 import { test, expect } from 'fixtures/business.fixture';
 import { generateMetricsResponse } from 'data/sales-portal/generateMetricsResponse';
-import numeral from 'numeral';
+import { convertNumberToFormat } from 'utils/validation/convertNumbers';
+import { TAGS } from 'data/tags';
 
-// Создайте 3 интеграционных теста для проверки следующих метрик на странице Home:
-// 1. Orders This Year
-// 2. New Customers
-// 3. Canceled Orders
+test.describe('[Integration] [Sales Portal] [Home] [Metrics]', () => {
+  test(
+    'Check Orders This Year metric',
+    { tag: [TAGS.UI, TAGS.REGRESSION] },
+    async ({ homePage, homeUIService, mock }) => {
+      const totalOrders = 50;
+      const expectedResponse = generateMetricsResponse({
+        Metrics: { orders: { totalOrders } },
+      });
+      await mock.homePageMetrics(expectedResponse);
 
-// Для реализации подмокивайте респонс эндпоинта metrics
+      await homeUIService.open();
+      await expect(homePage.orderThisYearMetric).toHaveText(totalOrders.toString());
+    }
+  );
 
-//   - Orders This Year: Metrics.orders.totalOrders
-//   - New Customers: Metrics.customers.totalNewCustomers
-//   - Canceled Orders: Metrics.orders.totalCanceledOrders
+  test(
+    'Check New Customers metric',
+    { tag: [TAGS.UI, TAGS.REGRESSION] },
+    async ({ homePage, homeUIService, mock }) => {
+      const totalNewCustomers = 150;
+      const expectedResponse = generateMetricsResponse({
+        Metrics: { customers: { totalNewCustomers } },
+      });
+      await mock.homePageMetrics(expectedResponse);
 
-// Остальной объект оставьте как есть сейчас в респонсе, замените просто на ваши данные в метриках
-// нужных
+      await homeUIService.open();
+      await expect(homePage.newCustomerMetric).toHaveText(totalNewCustomers.toString());
+    }
+  );
 
-// Добавьте в Task 1 еще 2 теста, на проверку следующих метрик:
-// 1. Total Revenue
-// 2. Avg Order Value
+  test(
+    'Check Canceled Orders metric',
+    { tag: [TAGS.UI, TAGS.REGRESSION] },
+    async ({ homePage, homeUIService, mock }) => {
+      const totalCanceledOrders = 17;
+      const expectedResponse = generateMetricsResponse({
+        Metrics: { orders: { totalCanceledOrders } },
+      });
+      await mock.homePageMetrics(expectedResponse);
 
-// Для пребразования цифр в формат как на юайке - используйте библиотеку numeral, формат - "0.0a"
-// https://www.npmjs.com/package/numeral
+      await homeUIService.open();
+      await expect(homePage.canceledOrdersMetric).toHaveText(totalCanceledOrders.toString());
+    }
+  );
 
-test.describe('[Integration] [Sales Portal] [Home] Metrics', () => {
-  const metricsMock = generateMetricsResponse({
-    Metrics: {
-      orders: {
-        totalOrders: 25,
-        totalRevenue: 125,
-        averageOrderValue: 500,
-        totalCanceledOrders: 3,
-      },
-      customers: {
-        totalNewCustomers: 7,
-      },
-    },
-  });
+  test(
+    'Check Total Revenue metric',
+    { tag: [TAGS.UI, TAGS.REGRESSION] },
+    async ({ homePage, homeUIService, mock }) => {
+      const totalRevenue = 165000;
+      const expectedResponse = generateMetricsResponse({
+        Metrics: { orders: { totalRevenue } },
+      });
+      await mock.homePageMetrics(expectedResponse);
 
-  const {
-    orders: { totalOrders, totalRevenue, averageOrderValue, totalCanceledOrders },
-    customers: { totalNewCustomers },
-  } = metricsMock.Metrics;
+      await homeUIService.open();
+      const formatted = '$' + convertNumberToFormat(totalRevenue, '0.0a');
+      await expect(homePage.totalRevenueMetric).toHaveText(formatted);
+    }
+  );
 
-  test.beforeEach(async ({ homePage, mock, loginAsAdmin }) => {
-    await mock.homePageMetrics(metricsMock);
-    await loginAsAdmin();
-    await homePage.waitForOpened();
-  });
+  test(
+    'Check Avg Order Value metric',
+    { tag: [TAGS.UI, TAGS.REGRESSION] },
+    async ({ homePage, homeUIService, mock }) => {
+      const avgOrderValue = 180;
+      const expectedResponse = generateMetricsResponse({
+        Metrics: { orders: { averageOrderValue: avgOrderValue } },
+      });
+      await mock.homePageMetrics(expectedResponse);
 
-  test('Orders This Year metric', async ({ homePage }) => {
-    await expect(homePage.orderThisYearMetric).toHaveText(totalOrders.toString());
-  });
-
-  test('New Customers metric', async ({ homePage }) => {
-    await expect(homePage.newCustomerMetric).toHaveText(totalNewCustomers.toString());
-  });
-
-  test('Canceled Orders metric', async ({ homePage }) => {
-    await expect(homePage.canceledOrdersMetric).toHaveText(totalCanceledOrders.toString());
-  });
-
-  test('Total Revenue metric', async ({ homePage }) => {
-    const formattedRevenue = '$' + numeral(totalRevenue).format('0.0a');
-    await expect(homePage.totalRevenueMetric).toHaveText(formattedRevenue);
-  });
-
-  test('Avg Order Value metric', async ({ homePage }) => {
-    const formattedAvgValue = '$' + numeral(averageOrderValue).format('0.0a');
-    await expect(homePage.avgOrdersValue).toHaveText(formattedAvgValue);
-  });
+      await homeUIService.open();
+      const formatted = '$' + convertNumberToFormat(avgOrderValue, '0.0a');
+      await expect(homePage.avgOrdersValue).toHaveText(formatted);
+    }
+  );
 });

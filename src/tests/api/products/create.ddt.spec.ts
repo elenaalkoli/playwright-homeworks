@@ -8,6 +8,7 @@ import { STATUS_CODES } from 'data/types/statusCodes.types';
 import { validateResponse } from 'utils/validation/validateResponse.utils';
 import { createProductSchema } from 'data/schemas/products/create.schema';
 import { ERROR_MESSAGES } from 'data/sales-portal/products/errorProduct.types';
+import { TAGS } from 'data/tags';
 
 // Используя DDT подход, напишите тест сьют для проверки эндпоинта создания продукта:
 //   1. с позитивными проверками
@@ -40,7 +41,7 @@ test.describe('[API] [Sales Portal] [Products] [Create]', () => {
 
   test.describe('Create product - positive cases', () => {
     for (const { title, value } of createProductPositiveCases) {
-      test(title, async ({ productsApi }) => {
+      test(title, { tag: [TAGS.API, TAGS.REGRESSION] }, async ({ productsApi }) => {
         const productData = generateProductData(value);
         const response = await productsApi.create(productData, token);
         console.log(response);
@@ -58,7 +59,7 @@ test.describe('[API] [Sales Portal] [Products] [Create]', () => {
 
   test.describe('Create product - negative cases', () => {
     for (const { title, value } of createProductNegativeCases) {
-      test(title, async ({ productsApi }) => {
+      test(title, { tag: [TAGS.API, TAGS.REGRESSION] }, async ({ productsApi }) => {
         const productData = generateProductData(value);
         const response = await productsApi.create(productData, token);
         console.log(response);

@@ -9,7 +9,7 @@ export function generateCustomerData(params?: Partial<ICustomer>): ICustomer {
     name: `${faker.person.firstName()} ${faker.person.lastName()}`,
     country: getRandomEnumValue(COUNTRIES),
     city: faker.location.city(),
-    street: faker.person.lastName(),
+    street: faker.location.street(),
     house: faker.number.int({ min: 0, max: 999 }),
     flat: faker.number.int({ min: 0, max: 9999 }),
     phone: `+${faker.number.int({ min: 111111111, max: 999999999999999 })}`,

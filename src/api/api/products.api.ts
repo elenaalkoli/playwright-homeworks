@@ -7,7 +7,7 @@ import {
 import { apiConfig } from 'config/apiConfig';
 import { IGetProductsParams, IProduct, IProductsSortedResponse } from 'data/types/product.types';
 import { convertRequestParams } from 'utils/queryParams.utils';
-
+import { logStep } from 'utils/report/logStep.utils';
 export class ProductsApi {
   constructor(private apiClient: IApiClient) {}
   //post
@@ -17,6 +17,7 @@ export class ProductsApi {
   //get with pagination
   //delete
 
+  @logStep('POST /api/products')
   async create(product: IProduct, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseUrl!,
@@ -30,7 +31,7 @@ export class ProductsApi {
     };
     return await this.apiClient.send<IProductResponse>(options);
   }
-
+  @logStep('PUT /api/products/{id}/')
   async update(_id: string, newProduct: IProduct, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseUrl!,
@@ -45,7 +46,7 @@ export class ProductsApi {
 
     return await this.apiClient.send<IProductResponse>(options);
   }
-
+  @logStep('GET /api/products/{id}/')
   async getById(_id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseUrl!,
@@ -59,7 +60,7 @@ export class ProductsApi {
 
     return await this.apiClient.send<IProductResponse>(options);
   }
-
+  @logStep('GET /api/products')
   async getAll(token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseUrl!,
@@ -73,7 +74,7 @@ export class ProductsApi {
 
     return await this.apiClient.send<IProductsResponse>(options);
   }
-
+  @logStep('DELETE /api/products/{id}/')
   async delete(_id: string, token: string) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseUrl!,
@@ -88,6 +89,7 @@ export class ProductsApi {
     return await this.apiClient.send<null>(options);
   }
 
+  @logStep('GET /api/products/?sortField')
   async getSorted(token: string, params?: Partial<IGetProductsParams>) {
     const options: IRequestOptions = {
       baseURL: apiConfig.baseUrl!,

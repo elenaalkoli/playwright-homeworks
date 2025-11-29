@@ -1,56 +1,39 @@
-import test, { expect } from '@playwright/test';
-import { credentials } from 'config/env';
+import { test, expect } from 'fixtures';
 import { NOTIFICATIONS } from 'data/sales-portal/notifications';
-import { generateProductData } from 'data/sales-portal/products/generateProductData';
-import _ from 'lodash';
-import { HomePage } from 'ui/pages/home.page';
-import { AddNewProductPage } from 'ui/pages/products/addNewProduct.page';
-import { ProductsListPage } from 'ui/pages/products/productsList.page';
+import { TAGS } from 'data/tags';
 
-test.describe('[Sales Portal] [Products]', () => {
-  test('Table parsing', async ({ page }) => {
-    const homePage = new HomePage(page);
-    const productsListPage = new ProductsListPage(page);
-    const addNewProductPage = new AddNewProductPage(page);
-    //login page
-    const emailInput = page.locator('#emailinput');
-    const passwordInput = page.locator('#passwordinput');
-    const loginButton = page.locator("button[type='submit']");
+test(
+  'Table parsing',
+  { tag: [TAGS.UI, TAGS.REGRESSION] },
+  async ({ productsListPage, productsListUIService, addNewProductUIService }) => {
+    // Открываем список продуктов
+    await productsListUIService.open();
 
-    await homePage.open();
+    // Открываем форму добавления нового продукта
+    await addNewProductUIService.open();
 
-    await expect(emailInput).toBeVisible();
-    await emailInput.fill(credentials.username);
-    await passwordInput.fill(credentials.password);
-    await loginButton.click();
+    // Создаём продукт
+    const created = await addNewProductUIService.createProduct();
 
-    await homePage.waitForOpened();
-    await homePage.clickOnViewModule('Products');
-    await productsListPage.waitForOpened();
-    await productsListPage.clickAddNewProduct();
-    await addNewProductPage.waitForOpened();
-    const productData = generateProductData();
-    await addNewProductPage.fillForm(productData);
-    await addNewProductPage.clickSave();
-    await productsListPage.waitForOpened();
+    // Проверяем, что продукт виден в таблице
+    await productsListUIService.assertProductVisibleInTable(created.name);
+
+    // Проверяем уведомление
     await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
-    await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
 
-    await expect.soft(productsListPage.nameCell(productData.name)).toHaveText(productData.name);
+    // Проверки данных продукта в таблице
+    await expect.soft(productsListPage.nameCell(created.name)).toHaveText(created.name);
+    await expect.soft(productsListPage.priceCell(created.name)).toHaveText(`$${created.price}`);
     await expect
-      .soft(productsListPage.priceCell(productData.name))
-      .toHaveText(`$${productData.price.toString()}`);
-    await expect
-      .soft(productsListPage.manufacturerCell(productData.name))
-      .toHaveText(productData.manufacturer);
-    // await expect.soft(productsListPage.createdOnCell(productData.name)).toHaveText("");
+      .soft(productsListPage.manufacturerCell(created.name))
+      .toHaveText(created.manufacturer);
 
-    const productFromTable = await productsListPage.getProductData(productData.name);
-    const expectedProduct = _.omit(productData, ['notes', 'amount']);
-    const actualProduct = _.omit(productFromTable, ['createdOn']);
-    expect(actualProduct).toEqual(expectedProduct);
+    // Получаем данные продукта из таблицы
+    const productFromTable = await productsListPage.getProductData(created.name);
+    console.log(productFromTable);
+    console.log(created);
 
-    const tableData = await productsListPage.getTableData();
-    console.log(tableData);
-  });
-});
+    // Сравниваем данные из таблицы с сгенерированными
+    productsListUIService.assertTableProductDataToGenerated(productFromTable, created);
+  }
+);
