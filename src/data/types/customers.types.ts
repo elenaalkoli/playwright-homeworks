@@ -2,7 +2,7 @@ import { COUNTRIES } from 'data/sales-portal/customers/countries';
 import { IResponseFields, ID } from './core.types';
 import { ICreatedOn } from './product.types';
 
-// Базовый интерфейс кастомера (из модалки Details)
+// Базовый интерфейс кастомера (из страницы AddNewCustomer)
 export interface ICustomer {
   email: string;
   name: string;
