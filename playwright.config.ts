@@ -67,11 +67,11 @@ export default defineConfig({
       dependencies: ['setup'],
       testDir: 'src/tests/ui/sales-portal',
     },
-    // {
-    //   name: 'sales-portal-api',
-    //   testDir: 'src/tests/api',
-    //   use: {}, //браузер не нужен
-    // },
+    {
+      name: 'sales-portal-api',
+      testDir: 'src/tests/api',
+      use: {}, //браузер не нужен
+    },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], headless: false },
