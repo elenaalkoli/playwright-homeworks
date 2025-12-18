@@ -5,7 +5,7 @@ import {
 } from 'data/sales-portal/products/createProduct.data';
 import { generateProductData } from 'data/sales-portal/products/generateProductData';
 import { STATUS_CODES } from 'data/types/statusCodes.types';
-import { validateResponse } from 'utils/validateResponse.utils';
+import { validateResponse } from 'utils/validation/validateResponse.utils';
 import { createProductSchema } from 'data/schemas/products/create.schema';
 import { ERROR_MESSAGES } from 'data/sales-portal/products/errorProduct.types';
 

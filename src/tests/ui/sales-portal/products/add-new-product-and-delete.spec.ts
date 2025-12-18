@@ -14,7 +14,7 @@ test.describe('[Sales Portal] [Products]', async () => {
     //login
     await loginPage.open();
     await expect(loginPage.uniqueElement).toBeVisible();
-    await loginPage.login(credentials.username, credentials.password);
+    await loginPage.login(credentials);
 
     //open products
     await homePage.waitForOpened();

@@ -20,6 +20,10 @@ export class ProductDetailsModal extends Modal {
     await this.editButton.click();
   }
 
+  async clickClose() {
+    await this.closeButton.click();
+  }
+
   async getData(): Promise<IProductDetails> {
     const [name, amount, price, manufacturer, createdOn, notes] =
       await this.productValue.allInnerTexts();

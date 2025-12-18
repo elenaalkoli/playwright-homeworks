@@ -19,7 +19,7 @@ test.describe('[Sales Portal] [Products]', async () => {
 
     await loginPage.open();
     await expect(loginPage.uniqueElement).toBeVisible();
-    await loginPage.login(credentials.username, credentials.password);
+    await loginPage.login(credentials);
 
     await homePage.waitForOpened();
     await homePage.clickOnViewModule('Products');
