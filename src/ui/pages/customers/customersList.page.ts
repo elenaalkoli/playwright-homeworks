@@ -1,6 +1,7 @@
 import { ICustomerInTable } from 'data/types/customers.types';
 import { SalesPortalPage } from '../salesPortal.page';
 import { COUNTRIES } from 'data/sales-portal/customers/countries';
+import { logStep } from 'utils/report/logStep.utils';
 
 export class CustomersListPage extends SalesPortalPage {
   readonly title = this.page.locator('#title h2');
@@ -11,10 +12,12 @@ export class CustomersListPage extends SalesPortalPage {
   readonly cellsInRow = (email: string) => this.tableRowByEmail(email).locator('td');
   readonly uniqueElement = this.title;
 
+  @logStep('Click Add New Customer Button')
   async clickAddCustomerButton() {
     await this.addCustomerButton.click();
   }
 
+  @logStep('Get row data from the Customers List by customer email')
   async getCustomerData(customersEmail: string): Promise<ICustomerInTable> {
     const [email, name, country, createdOn] = await this.cellsInRow(customersEmail).allInnerTexts();
     return {
